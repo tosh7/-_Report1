@@ -47,13 +47,13 @@ void load_image( int n, char name[] ){
         scanf("%s",file_name);
     } else strcpy( file_name, name );
     if ( (fp = fopen( file_name, "rb" ))==NULL ){
-        printf("その名前のファイルは存在しません．¥n");
+        printf("その名前のファイルは存在しません．\n");
         exit(1);
     }
     /* ファイルタイプ(=P5)の確認 */
     fgets( buffer, MAX_BUFFERSIZE, fp );
     if ( buffer[0] != 'P' || buffer[1] != '5' ){
-        printf("ファイルのフォーマットが P5 とは異なります．¥n");
+        printf("ファイルのフォーマットが P5 とは異なります．\n");
         exit(1);
     }
     /* width[n], height[n] の代入（#から始まるコメントは読み飛ばす） */
@@ -71,23 +71,23 @@ void load_image( int n, char name[] ){
             sscanf( buffer, "%d", &max_gray );
     }
     /* パラメータの画面への表示 */
-    printf("横の画素数 = %d, 縦の画素数 = %d¥n", width[n], height[n] );
-    printf("最大階調値 = %d¥n",max_gray);
+    printf("横の画素数 = %d, 縦の画素数 = %d\n", width[n], height[n] );
+    printf("最大階調値 = %d\n",max_gray);
     if ( width[n] > MAX_IMAGESIZE || height[n] > MAX_IMAGESIZE ){
-        printf("想定値 %d x %d を超えています．¥n",
+        printf("想定値 %d x %d を超えています．\n",
                MAX_IMAGESIZE, MAX_IMAGESIZE);
-        printf("もう少し小さな画像を使って下さい．¥n");
+        printf("もう少し小さな画像を使って下さい．\n");
         exit(1);
     }
     if ( max_gray != MAX_BRIGHTNESS ){
-        printf("最大階調値が不適切です．¥n");  exit(1);
+        printf("最大階調値が不適切です．\n");  exit(1);
     }
     /* 画像データを読み込んで画像用配列に代入する */
     for(y=0;y<height[n];y++)
         for(x=0;x<width[n];x++)
             image[n][x][y] = (unsigned char)fgetc( fp );
     fclose(fp);
-    printf("画像は正常に読み込まれました．¥n");
+    printf("画像は正常に読み込まれました．\n");
 }
 
 /* 階調画像を出力する関数*/
@@ -105,23 +105,23 @@ void save_image( int n, char name[] ){
         scanf("%s",file_name);
     } else strcpy( file_name, name );
     if ( (fp = fopen(file_name, "wb"))==NULL ){
-        printf("ファイルをオープンできません．¥n");
+        printf("ファイルをオープンできません．\n");
         exit(1);
     }
     /* ファイル識別子 "P5" を先頭に出力する */
-    fputs( "P5¥n", fp );
+    fputs( "P5\n", fp );
     /* # で始まるコメント行（省略可能） */
-    fputs( "# Created by Image Processing¥n", fp );
+    fputs( "# Created by Image Processing\n", fp );
     /* 画像の横幅，縦幅の出力 */
-    fprintf( fp, "%d %d¥n", width[n], height[n] );
+    fprintf( fp, "%d %d\n", width[n], height[n] );
     /* 最大階調値の出力 */
-    fprintf( fp, "%d¥n", MAX_BRIGHTNESS );
+    fprintf( fp, "%d\n", MAX_BRIGHTNESS );
     /* 画像データの出力 */
     for(y=0;y<height[n];y++)
         for(x=0;x<width[n];x++)
             fputc( image[n][x][y], fp );
     fclose(fp);
-    printf("画像は正常に出力されました．¥n");
+    printf("画像は正常に出力されました．\n");
 }
 
 /* 階調画像をコピーする関数*/
